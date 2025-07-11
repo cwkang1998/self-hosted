@@ -1,0 +1,7 @@
+services:
+  search_relay:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "13017:80"
