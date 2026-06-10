@@ -13,6 +13,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install a small development baseline for interactive Codex sessions.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+        bubblewrap \
         build-essential \
         ca-certificates \
         curl \
