@@ -16,7 +16,7 @@ The image is intended for interactive coding sessions where the container provid
   - RTK `0.40.0`
   - ICM `0.10.49`
 
-During the build, the Dockerfile selects the correct binary artifacts for `amd64` or `arm64`, verifies their SHA256 checksums, installs them into `/usr/local/bin`, and checks that each tool can report its version.
+During the build, the Dockerfile selects the correct binary artifacts for `amd64` or `arm64`, installs them into `/usr/local/bin`, and checks that each tool can report its version.
 
 ## Running With Docker Compose
 
