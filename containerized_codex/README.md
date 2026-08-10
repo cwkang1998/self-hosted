@@ -40,14 +40,21 @@ docker compose stop
 
 ## Persistence
 
-The Compose setup defines two named volumes:
+The Compose setup uses:
 
-- `codex-home` mounted at `/home/coder`
-- `icm-data` mounted at `/home/coder/.local/share/icm`
+- The `codex-home` named volume mounted at `/home/coder`
+- The host ICM directory `/Users/chen/Library/Application Support/dev.icm.icm`
+  bind-mounted read-write at `/home/coder/.local/share/icm`
 
-This keeps shell configuration, Codex state, and ICM data across container restarts and rebuilds.
+The container uses its Linux ICM executable while reading and writing the same
+ICM database as the host. Mounting the complete ICM directory also shares
+SQLite's journal, WAL, and shared-memory sidecar files.
 
 Before the main container starts, Compose runs a short `codex-volume-init` service as root to ensure `/home/coder` is owned by the `coder` user. It also initializes RTK's config and tracking database, plus the ICM SQLite database, as `coder`. This prevents tools such as RTK and ICM from failing when Docker has initialized a named volume with root-owned directories. The main `codex` service still runs as the non-root `coder` user.
+
+The init service only initializes container-owned home, RTK, and ICM paths. It
+does not mount or change ownership of the host ICM directory, which is overlaid
+only in the main `codex` service.
 
 ## Direct Image Usage
 
