@@ -16,7 +16,7 @@ chown -R coder:coder /home/coder
 if [ ! -f /home/coder/.config/rtk/config.toml ]; then
     sudo -H -u coder rtk config --create >/dev/null
 fi
-sudo -H -u coder rtk proxy true >/dev/null
+sudo -H -u coder rtk bypass true >/dev/null
 
 # Point elan at the stable channel once; the toolchain itself downloads on the
 # first `lean` or `lake` call. Skipped later so `elan default` changes stick.

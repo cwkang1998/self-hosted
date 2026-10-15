@@ -16,10 +16,10 @@ The image is intended for interactive coding sessions where the container provid
 - The latest stable Foundry release via `foundryup`, including `forge`, `cast`, `anvil`, and `chisel` for Solidity/EVM development.
 - GMP development headers and `zstd` alongside the existing C/C++ build tools for Lean native builds and compressed dependencies.
 - Pinned release binaries for:
-  - OMP `18.9.1` (build `20261011-111043-a4d6f0a`)
-  - Bun `1.4.2`
+  - OMP `18.11.1` (build `20261015-150252-7cc9129`)
+  - Bun `1.4.3`
   - GitHub CLI `2.102.0`
-  - RTK `0.49.0`
+  - RTK `1.0.1`
 
 During the build, the Dockerfile selects the correct `amd64` or `arm64`
 binaries, verifies OMP against the pinned SHA-256 and Bun and GitHub CLI

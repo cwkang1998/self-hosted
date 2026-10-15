@@ -107,12 +107,12 @@ RUN set -eux; \
 # above them would rebuild and silently upgrade Rust, Go, Lean, and Foundry.
 # OMP binaries are published per build ID; take the ID and checksums from
 # https://build.stencil.so/api/products/omp/latest/linux-arm64?channel=stable
-ARG OMP_BUILD=20261011-111043-a4d6f0a
-ARG OMP_SHA256_AMD64=0ac24a7c146dbfb4005ef00e21aa60bf9b1ddf15dae5f92938542c1475824417
-ARG OMP_SHA256_ARM64=8d67b1d1c8e698a8fa568685cab72b05a13263b45192e334fb5e1d04bb7dde83
-ARG BUN_VERSION=1.4.2
+ARG OMP_BUILD=20261015-150252-7cc9129
+ARG OMP_SHA256_AMD64=bf1e86a935b1ea26166a5280001eccea1205e6c21efe1b5853f0fd368c754974
+ARG OMP_SHA256_ARM64=b6e8e13a54d5fa3b374033b35778d9e0d98bb350ad80d03c183983520e9f2db1
+ARG BUN_VERSION=1.4.3
 ARG GH_VERSION=2.102.0
-ARG RTK_VERSION=0.49.0
+ARG RTK_VERSION=1.0.1
 
 # Download pinned OMP, Bun, GitHub CLI, and RTK binaries for the target
 # architecture. OMP shells out to `bun` to install plugins, and pstack's
