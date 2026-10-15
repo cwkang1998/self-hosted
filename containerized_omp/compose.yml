@@ -1,21 +1,21 @@
-x-codex-image: &codex-image
+x-omp-image: &omp-image
   build:
     context: .
     dockerfile: Dockerfile
-  image: containerized-codex:latest
+  image: containerized-omp:latest
 
 services:
-  codex-volume-init:
-    <<: *codex-image
+  omp-volume-init:
+    <<: *omp-image
     user: root
     command: ["docker-volume-init"]
     volumes:
-      - codex-home:/home/coder
+      - omp-home:/home/coder
 
-  codex:
-    <<: *codex-image
+  omp:
+    <<: *omp-image
     depends_on:
-      codex-volume-init:
+      omp-volume-init:
         condition: service_completed_successfully
     stdin_open: true
     tty: true
@@ -25,12 +25,8 @@ services:
       TERM: xterm-256color
       SHELL: /usr/bin/zsh
     volumes:
-      - codex-home:/home/coder
-      - type: bind
-        source: /Users/chen/Library/Application Support/dev.icm.icm
-        target: /home/coder/.local/share/icm
+      - omp-home:/home/coder
       - /Users/chen/Projects:/home/coder/workspace
 
 volumes:
-  codex-home:
-  working-directory:
+  omp-home:
