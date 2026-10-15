@@ -82,8 +82,10 @@ service as root. As the `coder` user, it:
 - installs pstack from `https://github.com/cwkang1998/pstack-omp` with
   `omp plugin install` while `~/.omp/plugins/omp-plugins.lock.json` has no
   `pstack-omp` entry,
-- sets `memory.backend` to `local` in `~/.omp/agent/config.yml`, and
-- sets `startup.checkUpdate` to `false`.
+- sets `memory.backend` to `local` in `~/.omp/agent/config.yml`,
+- sets `startup.checkUpdate` to `false`, and
+- seeds `modelRoles` and `task.agentModelOverrides` with the pstack model
+  routing below while each one is empty.
 
 The pstack install needs network access on the first start of a fresh volume.
 If it fails, the init service exits non-zero and the `omp` service does not
@@ -99,6 +101,25 @@ omp plugin upgrade pstack-omp
 The memory backend is reapplied on every start, so it stays `local` even if
 it is changed inside the container. Local memory is stored under
 `~/.omp/agent/memories` in the home volume and is not shared with the host.
+
+The model routing follows the host's pstack layout with every entry on OpenAI
+Codex at `xhigh` effort. The `default` role uses `gpt-6.1-sol`, `scout` uses
+`gpt-6-luna`, and the rest use `gpt-6-astra`. Later changes on
+the host do not reach the container.
+
+| Setting | Key | Model |
+| --- | --- | --- |
+| `modelRoles` | `default` | `openai-codex/gpt-6.1-sol:xhigh` |
+| `modelRoles` | `plan`, `advisor` | `openai-codex/gpt-6-astra:xhigh` |
+| `task.agentModelOverrides` | `task`, `reviewer`, `security-reviewer`, `planner`, `designer`, `librarian` | `openai-codex/gpt-6-astra:xhigh` |
+| `task.agentModelOverrides` | `scout` | `openai-codex/gpt-6-luna:xhigh` |
+
+Log in to OpenAI Codex with `/login`. Roles left unset, such as `smol` and
+`slow`, inherit `default`. The init service writes each setting only while it
+is empty, so changes made with `/models`, `/agents`, or `omp config set`
+survive later starts. Run `omp config reset modelRoles` or
+`omp config reset task.agentModelOverrides` to get these defaults back on the
+next start.
 
 ## Lean And Smart Contracts
 
