@@ -80,7 +80,8 @@ Before the main container starts, Compose runs a short `omp-volume-init`
 service as root. As the `coder` user, it:
 
 - installs pstack from `https://github.com/cwkang1998/pstack-omp` with
-  `omp plugin install` when `omp plugin list` does not show it yet,
+  `omp plugin install` while `~/.omp/plugins/omp-plugins.lock.json` has no
+  `pstack-omp` entry,
 - sets `memory.backend` to `local` in `~/.omp/agent/config.yml`, and
 - sets `startup.checkUpdate` to `false`.
 

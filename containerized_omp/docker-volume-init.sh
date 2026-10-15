@@ -25,12 +25,13 @@ if [ ! -f /home/coder/.elan/settings.toml ]; then
         /opt/elan/bin/elan default leanprover/lean4:stable >/dev/null
 fi
 
-# Install pstack only while omp has no record of it; reinstalling would
-# re-enable a plugin the user disabled. Asking omp instead of testing for the
-# package directory also repairs an install interrupted before registration.
+# Install pstack only while omp's plugin lock has no registration for it;
+# reinstalling would re-enable a plugin the user disabled. `omp plugin list`
+# is not enough: it lists an install interrupted before registration as
+# enabled, and `omp plugin disable` then fails on it.
 # Update it with `omp plugin upgrade pstack-omp`.
-if ! sudo -H -u coder omp plugin list --json \
-    | jq -e '.npm[] | select(.name == "pstack-omp")' >/dev/null; then
+if ! sudo -H -u coder jq -e '.plugins["pstack-omp"]' \
+    /home/coder/.omp/plugins/omp-plugins.lock.json >/dev/null 2>&1; then
     sudo -H -u coder omp plugin install "${PSTACK_SOURCE}"
 fi
 
